@@ -19,17 +19,23 @@ then
   export DISPLAY=:99
 fi
 
+USER=chrome
+GROUP=chrome
+
 service dbus start
-export XDG_RUNTIME_DIR=/run/user/$(id -u)
-mkdir $XDG_RUNTIME_DIR
-chmod 700 $XDG_RUNTIME_DIR
-chown $(id -un):$(id -gn) $XDG_RUNTIME_DIR
+export XDG_RUNTIME_DIR=/run/user/$USER
+mkdir -p $XDG_RUNTIME_DIR
 export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 dbus-daemon --session --address=$DBUS_SESSION_BUS_ADDRESS --nofork --nopidfile --syslog-only &
 
-google-chrome-stable \
-  --disable-gpu \
-  --no-sandbox \
-  --disable-software-rasterizer \
-  --disable-dev-shm-usage \
-  --remote-debugging-port=9222
+echo "export DISPLAY=$DISPLAY" >> /etc/profile
+echo "export XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR" >> /etc/profile
+echo "export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS" >> /etc/profile
+su - $USER -c '
+  google-chrome-stable \
+    --disable-gpu \
+    --no-sandbox \
+    --disable-software-rasterizer \
+    --disable-dev-shm-usage \
+    --remote-debugging-port=9222
+'

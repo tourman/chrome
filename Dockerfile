@@ -17,5 +17,4 @@ WORKDIR /app
 COPY start-container.sh /app/start-container.sh
 RUN chmod a+x /app/start-container.sh
 RUN groupadd --gid 1000 chrome && useradd --uid 1000 --gid chrome -G sudo --shell /usr/bin/bash --create-home chrome
-USER chrome
 ENTRYPOINT [ "/app/start-container.sh" ]

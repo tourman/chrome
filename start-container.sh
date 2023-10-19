@@ -27,4 +27,9 @@ chown $(id -un):$(id -gn) $XDG_RUNTIME_DIR
 export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 dbus-daemon --session --address=$DBUS_SESSION_BUS_ADDRESS --nofork --nopidfile --syslog-only &
 
-google-chrome-stable --disable-gpu --no-sandbox --disable-software-rasterizer --disable-dev-shm-usage --remote-debugging-port=9222
+google-chrome-stable \
+  --disable-gpu \
+  --no-sandbox \
+  --disable-software-rasterizer \
+  --disable-dev-shm-usage \
+  --remote-debugging-port=9222
